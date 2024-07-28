@@ -1,3 +1,4 @@
+import css from './Feedback.module.css'
 const Feedback = ({
     good,
     neutral,
@@ -7,7 +8,7 @@ const Feedback = ({
     return (
 
         <div>
-            <ul>
+            <ul className={css.list}>
                 <li>
                     <p>good: {good}</p>
                 </li>
