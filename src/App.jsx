@@ -4,6 +4,7 @@ import './App.css'
 import Options from './components/Options/Options'
 import Feedback from './components/Feedback/Feedback'
 import Notification from './components/Notification/Notification'
+import { useEffect } from 'react'
 function App() {
   const [reviews, setReviews] = useState(() => {
     const getReviews = window.localStorage.getItem("reviews");
@@ -16,6 +17,9 @@ function App() {
       bad: 0,
     };
   });
+    useEffect(() => {
+      window.localStorage.setItem("reviews", JSON.stringify(reviews));
+    }, [reviews]);
   const totalFeedback = reviews.good + reviews.neutral + reviews.bad;
   const positiveFeedback = Math.round((reviews.good / totalFeedback) * 100);
   const updateFeedback = (feedbackType) => {
@@ -53,9 +57,6 @@ function App() {
     //     };
     //  })
   }
-  useEffect(() => {
-    window.localStorage.setItem("reviews", JSON.stringify(reviews));
-  }, [reviews]);
   return (
     <>
       <Description />
