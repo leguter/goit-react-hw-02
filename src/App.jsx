@@ -11,6 +11,7 @@ function App() {
     bad: 0,
   });
   const totalFeedback = reviews.good + reviews.neutral + reviews.bad;
+  const positiveFeedback = Math.round((reviews.good / totalFeedback) * 100);
   const updateFeedback = (feedbackType) => {
     setReviews((prevState) => ({
       ...prevState,
@@ -28,14 +29,34 @@ function App() {
     //   }
     // }
   };
+  const resetReviews = () => {
+    setReviews({
+      good: 0,
+      neutral: 0,
+      bad: 0
+    })
+    useState(() => {
+      const getReviews = window.localStorage.getItem("reviews")
+        if (getReviews) {
+          return JSON.parse(getReviews);
+        }
+        return 0;
+     })
+    useEffect(() => {
+      window.localStorage.setItem("reviews", JSON.stringify(reviews));
+     },[reviews])
+  }
   return (
     <>
       <Description />
-      <Options feedbackFunction={updateFeedback} />
+      <Options feedbackFunction={updateFeedback} resetFunction={resetReviews} total={totalFeedback} />
       {totalFeedback === 0 ? <Notification /> : <Feedback
           good={reviews.good}
           neutral={reviews.neutral}
-          bad={reviews.bad}
+        bad={reviews.bad}
+        totalFeedback={totalFeedback}
+        positiveFeedback={positiveFeedback}
+        
         />}
     </>
   );

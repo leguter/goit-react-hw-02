@@ -1,6 +1,8 @@
 import css from './Options.module.css'
 const Options = ({
-feedbackFunction
+  feedbackFunction,
+  resetFunction,
+  total
 }) => {
     return (
       <div className={css.btnDiv}>
@@ -13,9 +15,9 @@ feedbackFunction
         <button onClick={()=>feedbackFunction('bad')} type="button">
           Bad
         </button>
-        <button  type="button">
+        {total !== 0 && <button onClick={resetFunction} type="button">
           Reset
-        </button>
+        </button>}
       </div>
     );
 }
