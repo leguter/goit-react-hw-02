@@ -5,10 +5,16 @@ import Options from './components/Options/Options'
 import Feedback from './components/Feedback/Feedback'
 import Notification from './components/Notification/Notification'
 function App() {
-  const [reviews, setReviews] = useState({
-    good: 0,
-    neutral: 0,
-    bad: 0,
+  const [reviews, setReviews] = useState(() => {
+    const getReviews = window.localStorage.getItem("reviews");
+    if (getReviews) {
+      return JSON.parse(getReviews);
+    }
+    return {
+      good: 0,
+      neutral: 0,
+      bad: 0,
+    };
   });
   const totalFeedback = reviews.good + reviews.neutral + reviews.bad;
   const positiveFeedback = Math.round((reviews.good / totalFeedback) * 100);
@@ -35,17 +41,21 @@ function App() {
       neutral: 0,
       bad: 0
     })
-    useState(() => {
-      const getReviews = window.localStorage.getItem("reviews")
-        if (getReviews) {
-          return JSON.parse(getReviews);
-        }
-        return 0;
-     })
-    useEffect(() => {
-      window.localStorage.setItem("reviews", JSON.stringify(reviews));
-     },[reviews])
+    // useState(() => {
+    //   const getReviews = window.localStorage.getItem("reviews")
+    //     if (getReviews) {
+    //       return JSON.parse(getReviews);
+    //     }
+    //     return {
+    //       good: 0,
+    //       neutral: 0,
+    //       bad: 0,
+    //     };
+    //  })
   }
+  useEffect(() => {
+    window.localStorage.setItem("reviews", JSON.stringify(reviews));
+  }, [reviews]);
   return (
     <>
       <Description />
